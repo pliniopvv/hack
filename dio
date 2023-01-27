@@ -1,0 +1,57 @@
+let constante = 'rgb(0, 175, 0) none repeat scroll 0% 0% / auto padding-box border-box'
+
+
+let _res = [];
+function scanNext() {
+	let btns = document.querySelector("#learning-container > div > div > div.lesson-content.order-12.col-md-8.order-md-1.offset-md-1 > div > div.text-dark.card-body > div > div > div.custom-tag.carousel-item.active > ul");	
+	btns.children[0].click();
+
+	for (let i = 0;i <= btns.children.length; i++) {	
+	    if (btns.children[i])
+		if (window.getComputedStyle(btns.children[i].children[0]).background == constante) {
+				let resposta = btns.children[i].children[0].children[0].children[0].children[0].innerHTML;
+				let pergunta = document.querySelector("#learning-container > div > div > div.lesson-content.order-12.col-md-8.order-md-1.offset-md-1 > div > div.text-dark.card-body > div > div > div.custom-tag.carousel-item.active > h5").innerHTML;
+				_res.push(pergunta + "////" + resposta);
+			}
+		}
+		
+	let btnProx = document.querySelector("#learning-container > div > div > div.lesson-content.order-12.col-md-8.order-md-1.offset-md-1 > div > div.card-footer > button");
+	if (btnProx.children[0].innerHTML == 'PRÓXIMA PERGUNTA') {
+		btnProx.click();
+	}
+}
+
+function f() {
+	JSON.stringify(_res);
+}
+
+//#################################################################################
+
+
+
+let _res2 = [];
+function load(parse) {
+	let obj = JSON.parse(parse);
+	for (let val of obj) {
+		let s = val.split("////");
+		let pergunta = s[0];
+		let resposta = s[1];
+		_res2[pergunta] = resposta;
+	}
+}
+
+function nextAnswer() {
+	let pergunta = document.querySelector("#learning-container > div > div > div.lesson-content.order-12.col-md-8.order-md-1.offset-md-1 > div > div.text-dark.card-body > div > div > div.custom-tag.carousel-item.active > h5").innerHTML;
+	let btns = document.querySelector("#learning-container > div > div > div.lesson-content.order-12.col-md-8.order-md-1.offset-md-1 > div > div.text-dark.card-body > div > div > div.custom-tag.carousel-item.active > ul");	
+	for (let i = 0; i <= btns.children.length;i++) {
+		if (btns.children[i])
+			if (_res2[pergunta] == btns.children[i].children[0].children[0].children[0].children[0].innerHTML)
+				btns.children[i].click();
+		}
+	
+	
+	let btnProx = document.querySelector("#learning-container > div > div > div.lesson-content.order-12.col-md-8.order-md-1.offset-md-1 > div > div.card-footer > button");
+	if (btnProx.children[0].innerHTML == 'PRÓXIMA PERGUNTA') {
+		btnProx.click();
+	}
+}
